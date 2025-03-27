@@ -1,3 +1,35 @@
+import bloomPass_blur_frag_glsl from '../../shaders/glsl/bloomPass.blur.frag.glsl'
+import bloomPass_combine_frag_glsl from '../../shaders/glsl/bloomPass.combine.frag.glsl'
+import bloomPass_highPass_frag_glsl from '../../shaders/glsl/bloomPass.highPass.frag.glsl'
+import imagePass_frag_glsl from '../../shaders/glsl/imagePass.frag.glsl'
+import mirrorPass_frag_glsl from '../../shaders/glsl/mirrorPass.frag.glsl'
+import palettePass_frag_glsl from '../../shaders/glsl/palettePass.frag.glsl'
+import quiltPass_frag_glsl from '../../shaders/glsl/quiltPass.frag.glsl'
+import rainPass_effect_frag_glsl from '../../shaders/glsl/rainPass.effect.frag.glsl'
+import rainPass_frag_glsl from '../../shaders/glsl/rainPass.frag.glsl'
+import rainPass_intro_frag_glsl from '../../shaders/glsl/rainPass.intro.frag.glsl'
+import rainPass_raindrop_frag_glsl from '../../shaders/glsl/rainPass.raindrop.frag.glsl'
+import rainPass_symbol_frag_glsl from '../../shaders/glsl/rainPass.symbol.frag.glsl'
+import rainPass_vert_glsl from '../../shaders/glsl/rainPass.vert.glsl'
+import stripePass_frag_glsl from '../../shaders/glsl/stripePass.frag.glsl'
+
+const textShaders = {
+	'shaders/glsl/bloomPass.blur.frag.glsl': bloomPass_blur_frag_glsl,
+	'shaders/glsl/bloomPass.combine.frag.glsl': bloomPass_combine_frag_glsl,
+	'shaders/glsl/bloomPass.highPass.frag.glsl': bloomPass_highPass_frag_glsl,
+	'shaders/glsl/imagePass.frag.glsl': imagePass_frag_glsl,
+	'shaders/glsl/mirrorPass.frag.glsl': mirrorPass_frag_glsl,
+	'shaders/glsl/palettePass.frag.glsl': palettePass_frag_glsl,
+	'shaders/glsl/quiltPass.frag.glsl': quiltPass_frag_glsl,
+	'shaders/glsl/rainPass.effect.frag.glsl': rainPass_effect_frag_glsl,
+	'shaders/glsl/rainPass.frag.glsl': rainPass_frag_glsl,
+	'shaders/glsl/rainPass.intro.frag.glsl': rainPass_intro_frag_glsl,
+	'shaders/glsl/rainPass.raindrop.frag.glsl': rainPass_raindrop_frag_glsl,
+	'shaders/glsl/rainPass.symbol.frag.glsl': rainPass_symbol_frag_glsl,
+	'shaders/glsl/rainPass.vert.glsl': rainPass_vert_glsl,
+	'shaders/glsl/stripePass.frag.glsl': stripePass_frag_glsl,
+}
+
 const makePassTexture = (regl, halfFloat) =>
 	regl.texture({
 		width: 1,
@@ -74,21 +106,9 @@ const loadImage = (regl, url, mipmap) => {
 };
 
 const loadText = (url) => {
-	let text = "";
-	let loaded = false;
 	return {
-		text: () => {
-			if (!loaded) {
-				console.warn(`text still loading: ${url}`);
-			}
-			return text;
-		},
-		loaded: (async () => {
-			if (url != null) {
-				text = await (await fetch(url)).text();
-				loaded = true;
-			}
-		})(),
+	  text: () => textShaders[shaderContent],
+	  loaded: Promise.resolve(), // Immediately resolved (no async needed)
 	};
 };
 

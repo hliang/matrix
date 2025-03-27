@@ -1,16 +1,15 @@
+import matrixcode_msdf_png from '../../assets/matrixcode_msdf.png';
+images = {
+	'assets/matrixcode_msdf.png': matrixcode_msdf_png,
+}
 const loadTexture = async (device, url) => {
-	if (url == null) {
-		return device.createTexture({
-			size: [1, 1, 1],
-			format: "rgba8unorm",
-			usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT,
-		});
-	}
+	console.log("loadTexture url", url)
+	const img = new Image();
+    img.src = images[url]; // The bundler will resolve this
+    await img.decode();
 
-	const response = await fetch(url);
-	const data = await response.blob();
-	const source = await createImageBitmap(data);
-	const size = [source.width, source.height, 1];
+    const source = await createImageBitmap(img);
+    const size = [source.width, source.height, 1];
 
 	const texture = device.createTexture({
 		size,

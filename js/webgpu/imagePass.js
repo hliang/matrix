@@ -7,6 +7,7 @@ const defaultBGURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/
 
 export default ({ config, device }) => {
 	const bgURL = "bgURL" in config ? config.bgURL : defaultBGURL;
+	console.log("webgpu imagepass url", bgURL);
 	const assets = [loadTexture(device, bgURL), loadShader(device, "shaders/wgsl/imagePass.wgsl")];
 
 	const linearSampler = device.createSampler({
