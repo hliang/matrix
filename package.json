@@ -1,0 +1,22 @@
+{
+  "name": "matrix",
+  "version": "1.0.0",
+  "description": "[![Matrix screenshot](/screenshot.png?raw=true \"Matrix's default appearance.\")](https://rezmason.github.io/matrix)",
+  "main": "main.js",
+  "directories": {
+    "lib": "js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "file-loader": "^6.2.0",
+    "parcel": "^2.14.2",
+    "raw-loader": "^4.0.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
+  }
+}
