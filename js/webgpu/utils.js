@@ -14,6 +14,15 @@ import resurrections_glint_msdf_png from '../../assets/resurrections_glint_msdf.
 import resurrections_msdf_png from '../../assets/resurrections_msdf.png';
 import sand_png from '../../assets/sand.png';
 
+import bloomBlur_wgsl from '../../shaders/wgsl/bloomBlur.wgsl';
+import bloomCombine_wgsl from '../../shaders/wgsl/bloomCombine.wgsl';
+import endPass_wgsl from '../../shaders/wgsl/endPass.wgsl';
+import imagePass_wgsl from '../../shaders/wgsl/imagePass.wgsl';
+import mirrorPass_wgsl from '../../shaders/wgsl/mirrorPass.wgsl';
+import palettePass_wgsl from '../../shaders/wgsl/palettePass.wgsl';
+import rainPass_wgsl from '../../shaders/wgsl/rainPass.wgsl';
+import stripePass_wgsl from '../../shaders/wgsl/stripePass.wgsl';
+
 const images = {
 	'assets/coptic_msdf.png': coptic_msdf_png,
 	'assets/gothic_msdf.png': gothic_msdf_png,
@@ -33,14 +42,14 @@ const images = {
 }
 
 const textShaders = {
-	'shaders/wgsl/bloomBlur.wgsl': import('../../shaders/wgsl/bloomBlur.wgsl'),
-	'shaders/wgsl/bloomCombine.wgsl': import('../../shaders/wgsl/bloomCombine.wgsl'),
-	'shaders/wgsl/endPass.wgsl': import('../../shaders/wgsl/endPass.wgsl'),
-	'shaders/wgsl/imagePass.wgsl': import('../../shaders/wgsl/imagePass.wgsl'),
-	'shaders/wgsl/mirrorPass.wgsl': import('../../shaders/wgsl/mirrorPass.wgsl'),
-	'shaders/wgsl/palettePass.wgsl': import('../../shaders/wgsl/palettePass.wgsl'),
-	'shaders/wgsl/rainPass.wgsl': import('../../shaders/wgsl/rainPass.wgsl'),
-	'shaders/wgsl/stripePass.wgsl': import('../../shaders/wgsl/stripePass.wgsl'),
+	'shaders/wgsl/bloomBlur.wgsl': bloomBlur_wgsl,
+	'shaders/wgsl/bloomCombine.wgsl': bloomCombine_wgsl,
+	'shaders/wgsl/endPass.wgsl': endPass_wgsl,
+	'shaders/wgsl/imagePass.wgsl': imagePass_wgsl,
+	'shaders/wgsl/mirrorPass.wgsl': mirrorPass_wgsl,
+	'shaders/wgsl/palettePass.wgsl': palettePass_wgsl,
+	'shaders/wgsl/rainPass.wgsl': rainPass_wgsl,
+	'shaders/wgsl/stripePass.wgsl': stripePass_wgsl,
 }
 
 const loadTexture = async (device, url) => {
@@ -56,7 +65,7 @@ const loadTexture = async (device, url) => {
 	img.src = images[url] ?? url;
 	await img.decode();
 	const source = await createImageBitmap(img);
-	const size = [img.width, img.height, 1];
+	const size = [source.width, source.height, 1];
 
 	const texture = device.createTexture({
 		size,
