@@ -13,6 +13,22 @@ import rainPass_symbol_frag_glsl from '../../shaders/glsl/rainPass.symbol.frag.g
 import rainPass_vert_glsl from '../../shaders/glsl/rainPass.vert.glsl'
 import stripePass_frag_glsl from '../../shaders/glsl/stripePass.frag.glsl'
 
+import coptic_msdf_png from '../../assets/coptic_msdf.png';
+import gothic_msdf_png from '../../assets/gothic_msdf.png';
+import gtarg_alientext_msdf_png from '../../assets/gtarg_alientext_msdf.png';
+import gtarg_tenretniolleh_msdf_png from '../../assets/gtarg_tenretniolleh_msdf.png';
+import huberfish_a_msdf_png from '../../assets/huberfish_a_msdf.png';
+import huberfish_d_msdf_png from '../../assets/huberfish_d_msdf.png';
+import matrixcode_msdf_png from '../../assets/matrixcode_msdf.png';
+import megacity_msdf_png from '../../assets/megacity_msdf.png';
+import mesh_png from '../../assets/mesh.png';
+import metal_png from '../../assets/metal.png';
+import neomatrixology_msdf_png from '../../assets/neomatrixology_msdf.png';
+import pixel_grid_png from '../../assets/pixel_grid.png';
+import resurrections_glint_msdf_png from '../../assets/resurrections_glint_msdf.png';
+import resurrections_msdf_png from '../../assets/resurrections_msdf.png';
+import sand_png from '../../assets/sand.png';
+
 const textShaders = {
 	'shaders/glsl/bloomPass.blur.frag.glsl': bloomPass_blur_frag_glsl,
 	'shaders/glsl/bloomPass.combine.frag.glsl': bloomPass_combine_frag_glsl,
@@ -28,6 +44,24 @@ const textShaders = {
 	'shaders/glsl/rainPass.symbol.frag.glsl': rainPass_symbol_frag_glsl,
 	'shaders/glsl/rainPass.vert.glsl': rainPass_vert_glsl,
 	'shaders/glsl/stripePass.frag.glsl': stripePass_frag_glsl,
+}
+
+const images = {
+	'assets/coptic_msdf.png': coptic_msdf_png,
+	'assets/gothic_msdf.png': gothic_msdf_png,
+	'assets/gtarg_alientext_msdf.png': gtarg_alientext_msdf_png,
+	'assets/gtarg_tenretniolleh_msdf.png': gtarg_tenretniolleh_msdf_png,
+	'assets/huberfish_a_msdf.png': huberfish_a_msdf_png,
+	'assets/huberfish_d_msdf.png': huberfish_d_msdf_png,
+	'assets/matrixcode_msdf.png': matrixcode_msdf_png,
+	'assets/megacity_msdf.png': megacity_msdf_png,
+	'assets/mesh.png': mesh_png,
+	'assets/metal.png': metal_png,
+	'assets/neomatrixology_msdf.png': neomatrixology_msdf_png,
+	'assets/pixel_grid.png': pixel_grid_png,
+	'assets/resurrections_glint_msdf.png': resurrections_glint_msdf_png,
+	'assets/resurrections_msdf.png': resurrections_msdf_png,
+	'assets/sand.png': sand_png,
 }
 
 const makePassTexture = (regl, halfFloat) =>
@@ -85,7 +119,7 @@ const loadImage = (regl, url, mipmap) => {
 			if (url != null) {
 				const data = new Image();
 				data.crossOrigin = "anonymous";
-				data.src = url;
+				data.src = images[url];
 				await data.decode();
 				loaded = true;
 				if (mipmap) {
@@ -107,7 +141,7 @@ const loadImage = (regl, url, mipmap) => {
 
 const loadText = (url) => {
 	return {
-	  text: () => textShaders[shaderContent],
+	  text: () => textShaders[url],
 	  loaded: Promise.resolve(), // Immediately resolved (no async needed)
 	};
 };
