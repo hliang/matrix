@@ -14,7 +14,7 @@ module.exports = {
         type: 'asset/inline', // Embed as data URIs
       },
       {
-        test: /\.glsl$/,
+        test: /\.(glsl|wgsl)$/,
         use: 'raw-loader' // Load shaders as strings
       },
     ],

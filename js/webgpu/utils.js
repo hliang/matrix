@@ -1,15 +1,62 @@
+import coptic_msdf_png from '../../assets/coptic_msdf.png';
+import gothic_msdf_png from '../../assets/gothic_msdf.png';
+import gtarg_alientext_msdf_png from '../../assets/gtarg_alientext_msdf.png';
+import gtarg_tenretniolleh_msdf_png from '../../assets/gtarg_tenretniolleh_msdf.png';
+import huberfish_a_msdf_png from '../../assets/huberfish_a_msdf.png';
+import huberfish_d_msdf_png from '../../assets/huberfish_d_msdf.png';
 import matrixcode_msdf_png from '../../assets/matrixcode_msdf.png';
-images = {
-	'assets/matrixcode_msdf.png': matrixcode_msdf_png,
-}
-const loadTexture = async (device, url) => {
-	console.log("loadTexture url", url)
-	const img = new Image();
-    img.src = images[url]; // The bundler will resolve this
-    await img.decode();
+import megacity_msdf_png from '../../assets/megacity_msdf.png';
+import mesh_png from '../../assets/mesh.png';
+import metal_png from '../../assets/metal.png';
+import neomatrixology_msdf_png from '../../assets/neomatrixology_msdf.png';
+import pixel_grid_png from '../../assets/pixel_grid.png';
+import resurrections_glint_msdf_png from '../../assets/resurrections_glint_msdf.png';
+import resurrections_msdf_png from '../../assets/resurrections_msdf.png';
+import sand_png from '../../assets/sand.png';
 
-    const source = await createImageBitmap(img);
-    const size = [source.width, source.height, 1];
+const images = {
+	'assets/coptic_msdf.png': coptic_msdf_png,
+	'assets/gothic_msdf.png': gothic_msdf_png,
+	'assets/gtarg_alientext_msdf.png': gtarg_alientext_msdf_png,
+	'assets/gtarg_tenretniolleh_msdf.png': gtarg_tenretniolleh_msdf_png,
+	'assets/huberfish_a_msdf.png': huberfish_a_msdf_png,
+	'assets/huberfish_d_msdf.png': huberfish_d_msdf_png,
+	'assets/matrixcode_msdf.png': matrixcode_msdf_png,
+	'assets/megacity_msdf.png': megacity_msdf_png,
+	'assets/mesh.png': mesh_png,
+	'assets/metal.png': metal_png,
+	'assets/neomatrixology_msdf.png': neomatrixology_msdf_png,
+	'assets/pixel_grid.png': pixel_grid_png,
+	'assets/resurrections_glint_msdf.png': resurrections_glint_msdf_png,
+	'assets/resurrections_msdf.png': resurrections_msdf_png,
+	'assets/sand.png': sand_png,
+}
+
+const textShaders = {
+	'shaders/wgsl/bloomBlur.wgsl': import('../../shaders/wgsl/bloomBlur.wgsl'),
+	'shaders/wgsl/bloomCombine.wgsl': import('../../shaders/wgsl/bloomCombine.wgsl'),
+	'shaders/wgsl/endPass.wgsl': import('../../shaders/wgsl/endPass.wgsl'),
+	'shaders/wgsl/imagePass.wgsl': import('../../shaders/wgsl/imagePass.wgsl'),
+	'shaders/wgsl/mirrorPass.wgsl': import('../../shaders/wgsl/mirrorPass.wgsl'),
+	'shaders/wgsl/palettePass.wgsl': import('../../shaders/wgsl/palettePass.wgsl'),
+	'shaders/wgsl/rainPass.wgsl': import('../../shaders/wgsl/rainPass.wgsl'),
+	'shaders/wgsl/stripePass.wgsl': import('../../shaders/wgsl/stripePass.wgsl'),
+}
+
+const loadTexture = async (device, url) => {
+	if (url == null) {
+		return device.createTexture({
+			size: [1, 1, 1],
+			format: "rgba8unorm",
+			usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT,
+		});
+	}
+
+	const img = new Image();
+	img.src = images[url] ?? url;
+	await img.decode();
+	const source = await createImageBitmap(img);
+	const size = [img.width, img.height, 1];
 
 	const texture = device.createTexture({
 		size,
@@ -39,8 +86,10 @@ const makeComputeTarget = (device, size, mipLevelCount = 1) =>
 	});
 
 const loadShader = async (device, url) => {
-	const response = await fetch(url);
-	const code = await response.text();
+	// const response = await fetch(url);
+	// const code = await response.text();
+	const code = textShaders[url];
+	console.log(`Loading shader from ${url}`, code);
 	return {
 		code,
 		module: device.createShaderModule({ code }),
