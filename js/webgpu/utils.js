@@ -95,8 +95,6 @@ const makeComputeTarget = (device, size, mipLevelCount = 1) =>
 	});
 
 const loadShader = async (device, url) => {
-	// const response = await fetch(url);
-	// const code = await response.text();
 	const code = textShaders[url];
 	return {
 		code,

@@ -10,7 +10,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|svg|jpg|gif|vert|frag)$/, // Handle assets/shader files
+        test: /\.(png|svg|jpg|gif)$/, // Handle assets files
         type: 'asset/inline', // Embed as data URIs
       },
       {
