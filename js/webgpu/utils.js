@@ -98,7 +98,6 @@ const loadShader = async (device, url) => {
 	// const response = await fetch(url);
 	// const code = await response.text();
 	const code = textShaders[url];
-	console.log(`Loading shader from ${url}`, code);
 	return {
 		code,
 		module: device.createShaderModule({ code }),
